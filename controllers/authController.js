@@ -58,13 +58,14 @@ export const register=async(req,res)=>{
     }
 }
 export const login=async(req,res)=>{
+
     const {email,password}=req.body
-    
+    // console.log(req.body)
     try{
         let user=null;
         const patient=await User.findOne({email});
         const doctor=await Doctor.findOne({email});
-        // console.log()
+        
         if(patient){
             user=patient;
         }
@@ -72,6 +73,7 @@ export const login=async(req,res)=>{
             user=doctor;
         }  
         //check if user exist or not
+        
         if(!user){
             return res.status(404).json({message:"user not found"});
         } 

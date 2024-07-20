@@ -5,13 +5,14 @@ import Stripe from 'stripe'
  
 
 export const getCheckoutSession=async(req,res)=>{
+    // console.log(req);
     try {
         //get currently booked doctor
         const doctor=await Doctor.findById(req.params.doctorId)
         const user=await User.findById(req.userId);
         const stripe=new Stripe(process.env.STRIPE_SECRET_KEY)
         console.log(process.env.STRIPE_SECRET_KEY)
-        console.log(doctor.id)
+        // console.log(doctor.id)
         //create stripe checkoutSession
         const session =await stripe.checkout.sessions.create({
             payment_method_types:['card'],
@@ -48,6 +49,7 @@ export const getCheckoutSession=async(req,res)=>{
         res.status(200).json({success:true,message:'Successfully paid',session})
 
     } catch (err) {
+        console.log(err);
      res.status(500).json({success:false,message:"Error creating checkout session"});
         
     }
